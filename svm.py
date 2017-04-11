@@ -8,6 +8,8 @@ import numpy as np
 TRAIN_SIZE = int(len(data) * .95)
 
 indices = np.random.permutation(len(classes))
+data = data[indices]
+classes = classes[indices]
 
 train_classes = classes[:TRAIN_SIZE]
 train_data = data[:TRAIN_SIZE]
