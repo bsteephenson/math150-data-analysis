@@ -2,24 +2,29 @@ from import_data import import_data
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier as kNN
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
 
 (classes, data) = import_data()
 
-TRAIN_SIZE = int(len(data) * .90) # Determine train size
+TRAIN_SIZE = int(len(data) * .80) # Determine train size
 
 indices = np.random.permutation(len(classes))
 data = data[indices]
 classes = classes[indices]
 
+# Extract training and test files
 train_classes = classes[:TRAIN_SIZE]
 train_data = data[:TRAIN_SIZE]
-
 test_classes = classes[TRAIN_SIZE:]
 test_data = data[TRAIN_SIZE:]
 
+
+PCA_reduction = False
 dimension_redux = 30
+
 # Perform PCA to reduce to specified dimension
-if dimension_redux == 30:
+if not PCA_reduction or dimension_redux == 30:
 	train_data_transformed = train_data
 	test_data_transformed = test_data
 else:
@@ -28,9 +33,14 @@ else:
 	test_data_transformed = pca.fit_transform(test_data)
 
 
-# Number of neighbors
+# Perform scaling
+scaler = StandardScaler() 
+scaler.fit(train_data)
+transformed_train_data = scaler.transform(train_data)
+transformed_test_data = scaler.transform(test_data)
 
-for neighbor_num in range(1,10):
+# 
+for neighbor_num in range(1,20):
 	# Train classifier
 	classifier = kNN(n_neighbors=neighbor_num)
 	classifier.fit(train_data_transformed, train_classes)

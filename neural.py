@@ -15,21 +15,21 @@ indices = np.random.permutation(len(classes))
 data = data[indices]
 classes = classes[indices]
 
+# Extract training and testing data
 train_classes = classes[:TRAIN_SIZE]
 train_data = data[:TRAIN_SIZE]
-scaler.fit(train_data)
-transformed_train_data = scaler.transform(train_data)
-
 test_classes = classes[TRAIN_SIZE:]
 test_data = data[TRAIN_SIZE:]
+
+# Perform scaling
+scaler.fit(train_data)
+transformed_train_data = scaler.transform(train_data)
 transformed_test_data = scaler.transform(test_data)
 
 
-
 # Perform classification
-classifier = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(10, 4), random_state=1)
+classifier = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(20, 3), random_state=1)
 classifier.fit(transformed_train_data, train_classes)
-
 prediction = classifier.predict(transformed_test_data)
 
 # Measure accuracy on test set
