@@ -17,7 +17,6 @@ train_data = data[:TRAIN_SIZE]
 test_classes = classes[TRAIN_SIZE:]
 test_data = data[TRAIN_SIZE:]
 
-
 dimension_redux = 30
 # Perform PCA to reduce to specified dimension
 if dimension_redux == 30:
