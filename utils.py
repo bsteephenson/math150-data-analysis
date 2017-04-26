@@ -2,6 +2,8 @@ import csv
 import numpy as np
 from numpy import genfromtxt
 
+from sklearn.decomposition import PCA
+
 def import_data():
 	
 	with open('data.csv', 'r') as file:

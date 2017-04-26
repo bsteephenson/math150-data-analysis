@@ -1,4 +1,4 @@
-from import_data import import_data
+from utils import import_data
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier as kNN
 from sklearn.decomposition import PCA
@@ -39,7 +39,7 @@ PCA_reduction = False
 # test_data_transformed = kernelpca.transform(test_data)
 neighbor_num = 8
 
-for n in range(5,31):
+for n in range(1,31):
 	pca = PCA(n_components= n)
 	pca.fit(train_data)
 	train_data_transformed = pca.transform(train_data)

@@ -15,14 +15,14 @@ print len(classes)
 print len(X[0])
 
 
-def normal_pca(n_components=n):
+def normal_pca(n_components=5):
 	(classes, data) = import_data()  # Import data from csv file
 	pca = PCA(n_components=n)
 	X = pca.fit_transform(data) # Return the projected data
 	return (classes, X)
 
 
-def kernel_pca()
+def kernel_pca():
 	(classes, data) = import_data()
 	kernelpca = KernelPCA(kernel="rbf", fit_inverse_transform=True, gamma=10)
 	X = kernelpca.fit_transform(data)
