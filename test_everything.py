@@ -171,7 +171,6 @@ for trial in range(0, 5):
 			low_dim_test_data = pca.transform(test_data)
 
 			for hidden_units in [1, 2, 4, 8]:
-
 				# Perform classification
 				classifier = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(hidden_units), random_state=1)
 				classifier.fit(low_dim_train_data, train_classes)
