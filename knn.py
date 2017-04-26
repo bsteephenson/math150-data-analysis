@@ -41,7 +41,7 @@ neighbor_num = 8
 
 for n in range(5,31):
 	pca = PCA(n_components= n)
-	X = pca.fit(train_data)
+	pca.fit(train_data)
 	train_data_transformed = pca.transform(train_data)
 	test_data_transformed = pca.transform(test_data)
 
