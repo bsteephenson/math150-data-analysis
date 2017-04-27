@@ -7,24 +7,24 @@ from sklearn.decomposition import KernelPCA
 
 (classes, data) = import_data()
 
-TRAIN_SIZE = int(len(data) * .90) # Determine train size
-indices = np.random.permutation(len(classes))
-data = data[indices]
-classes = classes[indices]
+# TRAIN_SIZE = int(len(data) * .90) # Determine train size
+# indices = np.random.permutation(len(classes))
+# data = data[indices]
+# classes = classes[indices]
 
-# Extract training and test files
-train_classes = classes[:TRAIN_SIZE]
-train_data = data[:TRAIN_SIZE]
-test_classes = classes[TRAIN_SIZE:]
-test_data = data[TRAIN_SIZE:]
+# # Extract training and test files
+# train_classes = classes[:TRAIN_SIZE]
+# train_data = data[:TRAIN_SIZE]
+# test_classes = classes[TRAIN_SIZE:]
+# test_data = data[TRAIN_SIZE:]
 
 # Perform scaling
-scaler = StandardScaler() 
-scaler.fit(train_data)
-train_data = scaler.transform(train_data)
-test_data = scaler.transform(test_data)
+# scaler = StandardScaler() 
+# scaler.fit(train_data)
+# train_data = scaler.transform(train_data)
+# test_data = scaler.transform(test_data)
 
-PCA_reduction = False
+# PCA_reduction = False
 
 # Normal PCA
 # pca = PCA(n_components=10)
@@ -63,6 +63,54 @@ PCA_reduction = False
 
 # a = np.asarray(results)
 # np.savetxt("./More_results_knn/knn10.csv", a, delimiter=",")
+
+
+
+for train_percent in [10, 25, 50, 60, 70, 80, 90, 95]:
+	accuracy = 0.0
+	for trial in range(10): # For each trial, permute the data
+		indices = np.random.permutation(len(classes))
+		data = data[indices]
+		classes = classes[indices]
+		samples = len(data)
+
+		TRAIN_SIZE = int(samples * train_percent / 100)
+
+		# Extract training and test files
+		train_classes = classes[:TRAIN_SIZE]
+		train_data = data[:TRAIN_SIZE]
+		test_classes = classes[TRAIN_SIZE:]
+		test_data = data[TRAIN_SIZE:]
+		
+		# Perform scaling
+		scaler = StandardScaler() 
+		scaler.fit(train_data)
+		train_data = scaler.transform(train_data)
+		test_data = scaler.transform(test_data)
+
+		optimal_n = 8
+		optimal_k = 7
+
+		pca = PCA(n_components= optimal_n)
+		pca.fit(train_data)
+		train_data_transformed = pca.transform(train_data)
+		test_data_transformed = pca.transform(test_data)
+
+		# Perform classification
+		classifier = kNN(n_neighbors=optimal_k)
+		classifier.fit(train_data_transformed, train_classes)
+
+		# Perform prediction
+		prediction = classifier.predict(test_data_transformed)
+		correct = 0
+		count = len(test_classes)
+		for i, x in enumerate(test_classes):
+		    if prediction[i] == x:
+		        correct += 1
+		accuracy += (float(correct)/count)/10
+
+	print str(train_percent)+","+str(accuracy)
+
 
 # optimal_n = 8
 # optimal_k = 7

@@ -57,18 +57,57 @@ transformed_test_data = scaler.transform(test_data)
 # np.savetxt("./More_results_nn/neural10.csv", a, delimiter=",")
 
 
+for train_percent in [10, 25, 50, 60, 70, 80, 90, 95]:
+	accuracy = 0.0
+	for trial in range(10):
+		indices = np.random.permutation(len(classes))
+		data = data[indices]
+		classes = classes[indices]
+		samples = len(data)
 
-opt_num_layer = 1
-opt_num_nodes = 15
+		TRAIN_SIZE = int(samples * train_percent / 100)
 
-classifier = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(opt_num_layer, opt_num_nodes), random_state=1)
-classifier.fit(transformed_train_data, train_classes)
-prediction = classifier.predict(transformed_test_data)
+		# Extract training and test files
+		train_classes = classes[:TRAIN_SIZE]
+		train_data = data[:TRAIN_SIZE]
+		test_classes = classes[TRAIN_SIZE:]
+		test_data = data[TRAIN_SIZE:]
+		
+		# Perform scaling
+		scaler.fit(train_data)
+		transformed_train_data = scaler.transform(train_data)
+		transformed_test_data = scaler.transform(test_data)
 
-# Measure accuracy on test set
-correct = 0
-count = len(test_classes)
-for i, x in enumerate(test_classes):
-    if prediction[i] == x:
-        correct += 1
-print opt_num_layer,opt_num_nodes,float(correct)/count
+		opt_num_layer = 1
+		opt_num_nodes = 15
+
+		classifier = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(opt_num_layer, opt_num_nodes), random_state=1)
+		classifier.fit(transformed_train_data, train_classes)
+		prediction = classifier.predict(transformed_test_data)
+
+		# Measure accuracy on test set
+		correct = 0
+		count = len(test_classes)
+		for i, x in enumerate(test_classes):
+		    if prediction[i] == x:
+		        correct += 1
+        accuracy += (float(correct)/count)/10
+	
+	print str(train_percent)+","+str(accuracy)
+
+
+
+# opt_num_layer = 1
+# opt_num_nodes = 15
+
+# classifier = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(opt_num_layer, opt_num_nodes), random_state=1)
+# classifier.fit(transformed_train_data, train_classes)
+# prediction = classifier.predict(transformed_test_data)
+
+# # Measure accuracy on test set
+# correct = 0
+# count = len(test_classes)
+# for i, x in enumerate(test_classes):
+#     if prediction[i] == x:
+#         correct += 1
+# print opt_num_layer,opt_num_nodes,float(correct)/count
