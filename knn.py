@@ -38,27 +38,49 @@ PCA_reduction = False
 # train_data_transformed = kernelpca.transform(train_data)
 # test_data_transformed = kernelpca.transform(test_data)
 
-results = []
 
-for neighbor_num in range(1,25):
-	for n in range(1,31):
-		pca = PCA(n_components= n)
-		pca.fit(train_data)
-		train_data_transformed = pca.transform(train_data)
-		test_data_transformed = pca.transform(test_data)
+# results = []
 
-		# Perform classification
-		classifier = kNN(n_neighbors=neighbor_num)
-		classifier.fit(train_data_transformed, train_classes)
+# for neighbor_num in range(1,25):
+# 	for n in range(1,31):
+# 		pca = PCA(n_components= n)
+# 		pca.fit(train_data)
+# 		train_data_transformed = pca.transform(train_data)
+# 		test_data_transformed = pca.transform(test_data)
 
-		# Perform prediction
-		prediction = classifier.predict(test_data_transformed)
-		correct = 0
-		count = len(test_classes)
-		for i, x in enumerate(test_classes):
-		    if prediction[i] == x:
-		        correct += 1
-		results.append([int(neighbor_num),int(n),float(correct)/count])
+# 		# Perform classification
+# 		classifier = kNN(n_neighbors=neighbor_num)
+# 		classifier.fit(train_data_transformed, train_classes)
 
-a = np.asarray(results)
-np.savetxt("./More_results_nn/neural1.csv", a, delimiter=",")
+# 		# Perform prediction
+# 		prediction = classifier.predict(test_data_transformed)
+# 		correct = 0
+# 		count = len(test_classes)
+# 		for i, x in enumerate(test_classes):
+# 		    if prediction[i] == x:
+# 		        correct += 1
+# 		results.append([int(neighbor_num),int(n),float(correct)/count])
+
+# a = np.asarray(results)
+# np.savetxt("./More_results_knn/knn10.csv", a, delimiter=",")
+
+# optimal_n = 8
+# optimal_k = 7
+
+# pca = PCA(n_components= optimal_n)
+# pca.fit(train_data)
+# train_data_transformed = pca.transform(train_data)
+# test_data_transformed = pca.transform(test_data)
+
+# # Perform classification
+# classifier = kNN(n_neighbors=optimal_k)
+# classifier.fit(train_data_transformed, train_classes)
+
+# # Perform prediction
+# prediction = classifier.predict(test_data_transformed)
+# correct = 0
+# count = len(test_classes)
+# for i, x in enumerate(test_classes):
+#     if prediction[i] == x:
+#         correct += 1
+# print int(optimal_k),int(optimal_n),float(correct)/count
